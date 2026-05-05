@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes App</title>
+</head>
+<body>
+    <body>
+    <div>
+        {% if user.is_authenticated %}
+            Logged in as: {{ user.username }}
+            <form action="/logout/" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="/login/">Login</a> | <a href="/register/">Register</a>
+        {% endif %}
+    </div>
+
+    <h1>Notes App</h1>
+
+    <h2>Search Notes</h2>
+    <form action="" method="GET">
+        <input type="text" name="query" placeholder="Search">
+        <button type="submit">Search</button>
+    </form>
+
+    <hr>
+
+    <h2>Add a New Note</h2>
+    <form action="/add/" method="POST">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Write your note here" required></textarea><br>
+        <button type="submit">Post Note</button>
+    </form>
+
+    <hr>
+
+    <h2>All Notes</h2>
+    <ul>
+        {% for note in notes %}
+            <li>
+                <strong>{{ note.user.username }}:</strong> {{ note.content }}
+                
+                <a href="/delete/{{ note.id }}/">[Delete]</a>
+            </li>
+        {% empty %}
+            <li>No notes found.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
