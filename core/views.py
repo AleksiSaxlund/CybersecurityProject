@@ -24,7 +24,7 @@ def index(request):
 @csrf_exempt
 # Below is the fix for the 5th flaw.
 #
-# It can be fixed with removing the @csrf_exampt row.
+# It can be fixed with removing the @csrf_exempt row.
 def add_note(request):
     if request.method == 'POST':
         content = request.POST.get('content')
