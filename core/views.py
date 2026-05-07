@@ -3,15 +3,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Note
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     query = request.GET.get('query', '')
 
     if query:
+        # 2nd flaw:
         sql_query = f"SELECT * FROM core_note WHERE content LIKE '%{query}%'"
         notes = Note.objects.raw(sql_query)
-
-        # Alhaalla korjaus tälle haavoittuvaisuudelle.
+        # Below is the fix for the 2nd flaw.
         #
         # notes = Note.objects.filter(content__icontains=query)
     else:
@@ -19,6 +20,11 @@ def index(request):
 
     return render(request, 'core/index.html', {'notes': notes})
 
+# 5th flaw:
+@csrf_exempt
+# Below is the fix for the 5th flaw.
+#
+# It can be fixed with removing the @csrf_exampt row.
 def add_note(request):
     if request.method == 'POST':
         content = request.POST.get('content')
@@ -30,7 +36,13 @@ def add_note(request):
 
 def delete_note(request, note_id):
     note = Note.objects.get(id=note_id)
+    # 1st flaw:
     note.delete()
+    # Below is the fix for the 1st flaw.
+    #
+    # if request.user == note.user:
+    #     note.delete()
+
     return redirect('index')
 
 def user_register(request):

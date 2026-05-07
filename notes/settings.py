@@ -23,7 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2cobwd2@wsw@q%ps4zuzdkxv38gm-aa4$j@=b%7b^n^1o$_5$u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 3rd flaw: 
 DEBUG = True
+# Below is the fix for the 3rd flaw.
+#
+# DEBUG = False
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 ALLOWED_HOSTS = []
 
@@ -84,8 +89,10 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
+# 4th flaw:
 AUTH_PASSWORD_VALIDATORS = []
-
+# Below is a fix for the 4th flaw.
+#
 # AUTH_PASSWORD_VALIDATORS = [
 #     {
 #         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

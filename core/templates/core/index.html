@@ -30,7 +30,13 @@
 
     <h2>Add a New Note</h2>
     <form action="/add/" method="POST">
+        <!-- n:th flaw: -->
+        
+    <!--
+        Below is the fix for the n:th flaw.
+
         {% csrf_token %}
+    -->
         <textarea name="content" placeholder="Write your note here" required></textarea><br>
         <button type="submit">Post Note</button>
     </form>
